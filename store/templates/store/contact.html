@@ -5,6 +5,7 @@
 <div class="container my-3">
     <h3>Contact Us</h3>
     <form action="/store/contact/" method="post">{% csrf_token %}
+      <input type="hidden" name="contactJson" id="contactJson">
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name" name='name' placeholder="Enter Your Name">
@@ -31,3 +32,13 @@
 
 </div>
 {% endblock %}
+{% block js %}
+  <script>
+// $('#contactJson').val(JSON.stringify(contact));
+// {% if thank %}
+// alert("Thanks for submitting the Query. We will try to solve your problem")
+// // localStorage.clear();
+// document.location="/store";
+// {%endif%}
+  </script>
+{% endblock js %}
