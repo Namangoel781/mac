@@ -3,6 +3,11 @@
 {% block title %} Check Out - My Awesome Cart {% endblock title %}
 
 {% block body %}
+<style>
+      .col ol li span{
+            color: rgb(175, 175, 175);
+      }
+</style>
 <div class="container">
       <div class="col my-4">
             <h2>Step 1 - My Awesome Cart Express Checkout - Review Your Cart Items</h2>
@@ -11,6 +16,11 @@
                   <ol class="list-group list-group-numbered" id="items">
 
                   </ol>
+                  <div class="alert alert-dark mt-3" role="alert">
+                  Your Cart Total is <b>₹<span id="totalPrice"></span></b>. Thanks for using <b>My Awesome Cart</b>.Enter User Details for Ordering Your Items.
+                  </div>
+
+
             </div>
       </div>
       <div class="col my-4">
@@ -75,31 +85,32 @@
       }
       console.log(cart);
       var sum = 0;
+      var totalPrice = 0;
       if ($.isEmptyObject(cart)) {
-            // if object is empty
-            mystr = `<h6>Your cart is Empty, please add some items to your cart before Checking Out!</h6>`
+            //if object is empty
+            mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`
             $('#items').append(mystr);
-      }
-      else {
-
-
+      } else {
             for (item in cart) {
                   let name = cart[item][1];
                   let qty = cart[item][0];
+                  let itemPrice = cart[item][2];
                   sum = sum + qty;
-                  mystr = `<li class="list-group-item d-flex justify-content-between align-items-start">
-                              ${name}
-                              <span class="badge bg-primary rounded-pill">${qty}</span>
-                        </li>`
+                  totalPrice = totalPrice + qty * itemPrice
+                  mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}
+                    <span class="badge badge-primary badge-pill">${qty}</span>
+                </li>`
                   $('#items').append(mystr);
             }
       }
       document.getElementById('cart').innerHTML = sum;
+      document.getElementById('totalPrice').innerHTML = totalPrice;
       $('#itemsJson').val(JSON.stringify(cart));
-{% if thank %}
-alert("Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker")
-localStorage.clear();
-document.location="/store";
-{%endif%}
+      {% if thank %}
+      alert("Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker")
+      localStorage.clear();
+      document.location = "/store";
+      {% endif %}
 </script>
 {% endblock js %}
